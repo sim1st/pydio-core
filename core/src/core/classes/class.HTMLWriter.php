@@ -197,6 +197,9 @@ class HTMLWriter
 
     public static function generateInlineHeaders($attachName, $fileSize, $mimeType)
     {
+        if (preg_match('/ MSIE /',$_SERVER['HTTP_USER_AGENT']) || preg_match('/ WebKit /',$_SERVER['HTTP_USER_AGENT']) || preg_match('/ Trident/',$_SERVER['HTTP_USER_AGENT'])) {
+             $attachName = str_replace("+", " ", urlencode(SystemTextEncoding::toUTF8($attachName)));
+        }
         //Send headers
         header("Content-Type: " . $mimeType . "; name=\"" . $attachName . "\"");
         header("Content-Disposition: inline; filename=\"" . $attachName . "\"");
